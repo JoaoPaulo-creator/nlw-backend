@@ -2,13 +2,15 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "lint": "eslint src --ext .ts --fix"
+    "lint": "eslint src --ext .ts --fix",
+    "test": "node --test --watch src/tests/integration.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "JoaoPaulo-creator",
   "license": "ISC",
   "devDependencies": {
     "@rocketseat/eslint-config": "^1.2.0",
@@ -19,7 +21,9 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@fastify/cors": "^8.2.1",
     "@prisma/client": "^4.14.0",
-    "fastify": "^4.17.0"
+    "fastify": "^4.17.0",
+    "zod": "^3.21.4"
   }
 }
