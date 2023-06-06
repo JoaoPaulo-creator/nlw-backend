@@ -1,13 +1,13 @@
-import { FastifyInstance } from "fastify";
-import { z } from "zod";
-import axios from "axios";
-import { prisma } from "../lib/prisma";
-
+/* eslint-disable camelcase */
+import { FastifyInstance } from 'fastify'
+import { z } from 'zod'
+import axios from 'axios'
+import { prisma } from '../lib/prisma'
 
 export async function auth(app: FastifyInstance) {
   app.post('/register', async (request) => {
     const bodySchema = z.object({
-      code: z.string()
+      code: z.string(),
     })
 
     const { code } = bodySchema.parse(request.body)
@@ -22,16 +22,16 @@ export async function auth(app: FastifyInstance) {
           code,
         },
         headers: {
-          Accept: 'application/json'
-        }
-      }
+          Accept: 'application/json',
+        },
+      },
     )
 
     const { access_token } = accessTokenResponse.data
     const userResponse = await axios.get('https://api.github.com/user', {
       headers: {
-        Authorization: `Bearer ${access_token}`
-      }
+        Authorization: `Bearer ${access_token}`,
+      },
     })
 
     const userSchema = z.object({
@@ -45,8 +45,8 @@ export async function auth(app: FastifyInstance) {
 
     let user = await prisma.user.findUnique({
       where: {
-        githubId: userInfo.id
-      }
+        githubId: userInfo.id,
+      },
     })
 
     if (!user) {
@@ -56,18 +56,20 @@ export async function auth(app: FastifyInstance) {
           login: userInfo.login,
           name: userInfo.name,
           avatarUrl: userInfo.avatar_url,
-        }
+        },
       })
     }
 
-    const token = app.jwt.sign({
-      name: user.name,
-      avatarUrl: user.avatarUrl
-    },
-    {
-      sub: user.id, // sub == subject
-      expiresIn: '15 days'
-    })
+    const token = app.jwt.sign(
+      {
+        name: user.name,
+        avatarUrl: user.avatarUrl,
+      },
+      {
+        sub: user.id, // sub == subject
+        expiresIn: '15 days',
+      },
+    )
 
     return { token }
   })

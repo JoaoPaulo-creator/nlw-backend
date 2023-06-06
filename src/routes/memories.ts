@@ -1,25 +1,21 @@
 import { FastifyInstance } from 'fastify'
 import { prisma } from '../lib/prisma'
 import z from 'zod'
-import { REPLServer } from 'repl'
 
 export async function routes(app: FastifyInstance) {
-
   /*
    funciona mais ou menos como um middleware
    entao antes de qualquer requisicao, sera verificado se o usuario esta logado
    ou se o token valido
   */
-  app.addHook('preHandler',async (request) => {
+  app.addHook('preHandler', async (request) => {
     await request.jwtVerify()
   })
 
-
   app.get('/memories', async (request) => {
-
     const memories = await prisma.memory.findMany({
       where: {
-        userId: request.user.sub
+        userId: request.user.sub,
       },
       orderBy: {
         createdAt: 'asc',
@@ -50,7 +46,7 @@ export async function routes(app: FastifyInstance) {
       },
     })
 
-    if(!memory.isPublic && memory.userId !== request.user.sub) {
+    if (!memory.isPublic && memory.userId !== request.user.sub) {
       return reply.status(401).send()
     }
 
@@ -95,7 +91,7 @@ export async function routes(app: FastifyInstance) {
       },
     })
 
-    if(memory.userId !== request.user.sub) {
+    if (memory.userId !== request.user.sub) {
       return reply.status(401).send()
     }
 
@@ -118,16 +114,15 @@ export async function routes(app: FastifyInstance) {
 
     const { id } = paramSchema.parse(request.params)
 
-    let memory = await prisma.memory.findUniqueOrThrow({
+    const memory = await prisma.memory.findUniqueOrThrow({
       where: {
         id,
       },
     })
 
-    if(memory.userId !== request.user.sub) {
+    if (memory.userId !== request.user.sub) {
       return reply.status(401).send()
     }
-
 
     await prisma.memory.delete({
       where: {
