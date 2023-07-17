@@ -7,8 +7,9 @@
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src --ext .ts --fix",
     "test": "node --test --watch src/tests/integration.js",
-    "build": "tsc",
-    "vercel-build": "echo build"
+    "build": "npx prisma generate && tsc",
+    "vercel-build": "echo build",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "JoaoPaulo-creator",
