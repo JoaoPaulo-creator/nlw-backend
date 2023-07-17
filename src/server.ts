@@ -35,3 +35,5 @@ app
   .then(() => {
     console.log('🚀 Server listening on port http://localhost:3333')
   })
+
+export default app
