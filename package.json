@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src --ext .ts --fix",
-    "test": "node --test --watch src/tests/integration.js"
+    "test": "node --test --watch src/tests/integration.js",
+    "build": "tsc",
+    "vercel-build": "echo build"
   },
   "keywords": [],
   "author": "JoaoPaulo-creator",
