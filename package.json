@@ -9,7 +9,8 @@
     "test": "node --test --watch src/tests/integration.js",
     "build": "npx prisma generate && tsc",
     "vercel-build": "echo build",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "start": "node dist/src/server.js"
   },
   "keywords": [],
   "author": "JoaoPaulo-creator",
