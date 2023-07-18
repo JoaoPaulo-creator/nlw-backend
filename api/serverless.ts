@@ -10,13 +10,11 @@ const teste: any = app
 
 // Instantiate Fastify with some config
 const server = Fastify({
-  logger: false,
+  logger: true,
 })
 
 // Register your application as a normal plugin.
-server.register(teste, {
-  prefix: '/',
-})
+server.register(teste)
 
 export default async (req: any, res: any) => {
   await server.ready()
