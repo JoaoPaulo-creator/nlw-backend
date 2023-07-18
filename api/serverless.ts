@@ -33,7 +33,19 @@ app.register(jwt, {
 app.register(upload)
 app.register(auth)
 
+app.get('/', (request, reply) => {
+  reply.send({ hello: 'world' })
+})
+
 export default async (req: any, res: any) => {
   await app.ready()
   app.server.emit('request', req, res)
 }
+
+app
+  .listen({
+    port: 3333,
+  })
+  .then(() => {
+    console.log('🚀 Server listening on port http://localhost:3333')
+  })
