@@ -1,22 +1,39 @@
 import * as dotenv from 'dotenv'
-import app from '../src/server'
+import cors from '@fastify/cors'
+import { auth } from '../src/routes/auth'
+import { routes } from '../src//routes/memories'
+import jwt from '@fastify/jwt'
+import multipart from '@fastify/multipart'
+import { upload } from '../src/routes/upload'
+import { resolve } from 'path'
+
+// import app from '../src/app'
 
 // Require the framework
-import Fastify from 'fastify'
+import fastify from 'fastify'
 
 dotenv.config()
+const app = fastify()
+app.register(routes)
 
-const teste: any = app
-
-// Instantiate Fastify with some config
-const server = Fastify({
-  logger: true,
+app.register(multipart)
+app.register(require('@fastify/static'), {
+  root: resolve(__dirname, '../uploads'),
+  prefix: '/uploads',
 })
 
-// Register your application as a normal plugin.
-server.register(teste)
+app.register(cors, {
+  origin: true,
+})
+
+app.register(jwt, {
+  secret: `${process.env.JWT_SECRET}`,
+})
+
+app.register(upload)
+app.register(auth)
 
 export default async (req: any, res: any) => {
-  await server.ready()
-  server.server.emit('request', req, res)
+  await app.ready()
+  app.server.emit('request', req, res)
 }
