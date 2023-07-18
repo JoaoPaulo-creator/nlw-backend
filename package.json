@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "serverless": "tsx watch api/serverless.ts",
+    "dev": "tsx watch src/app.ts",
     "lint": "eslint src --ext .ts --fix",
     "test": "node --test --watch src/tests/integration.js",
     "build": "npx prisma generate && tsc",

@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 import cors from '@fastify/cors'
 import { auth } from '../src/routes/auth'
-import { routes } from '../src//routes/memories'
+import { routes } from '../src/routes/memories'
 import jwt from '@fastify/jwt'
 import multipart from '@fastify/multipart'
 import { upload } from '../src/routes/upload'
